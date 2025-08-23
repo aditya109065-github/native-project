@@ -3,12 +3,11 @@
     "name": "CalculatorApp",
     "slug": "CalculatorApp",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/calculatorAppIcon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/calculatorAppIcon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,13 +16,19 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/calculatorAppIcon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.batm.CalculatorApp"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/calculatorAppIcon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "885f8ee6-dc5f-4fec-bf23-96dc1cbf93cd"
+      }
     }
   }
 }
