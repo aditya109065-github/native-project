@@ -2,7 +2,7 @@
   "expo": {
     "name": "CalculatorApp",
     "slug": "CalculatorApp",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icon": "./assets/calculatorAppIcon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
@@ -12,9 +12,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "buildNumber": "1",
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/calculatorAppIcon.png",
         "backgroundColor": "#ffffff"
