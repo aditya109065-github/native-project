@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native'
 import Button from "./Button";
 const Keypad = (props) => {
-    const { buttonSize, handlePress } = props
+const { buttonSize, handlePress } = props
   return (
     <View>
       <View style={styles.row}>

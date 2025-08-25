@@ -3,6 +3,7 @@ import { View, StyleSheet, Dimensions } from "react-native";
 import Display from "./Display";
 import History from "./History";
 import Keypad from "./Keypad";
+import * as Haptics from "expo-haptics";
 
 const Calculator = () => {
   const [input, setInput] = useState("0");
@@ -11,6 +12,10 @@ const Calculator = () => {
   const buttonSize = screenWidth / 4 - 12;
 
   const handlePress = (btn) => {
+    if(btn !== "=") {
+      Haptics.selectionAsync();
+    }
+
     switch (btn) {
       case "AC":
         setInput("0");
@@ -19,7 +24,7 @@ const Calculator = () => {
       case "DEL":
         setInput((prev) => (prev.length > 1 ? prev.slice(0, -1) : "0"));
         break;
-
+        
       case "=":
         try {
           const expression = input
@@ -32,8 +37,10 @@ const Calculator = () => {
             const updated = [...prev, `${input} = ${result}`];
             return updated.slice(-3);
           });
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
           setInput(result);
         } catch {
+          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
           setInput("Error");
         }
         break;
