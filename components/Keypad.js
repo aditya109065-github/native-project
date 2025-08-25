@@ -2,8 +2,6 @@ import { StyleSheet, View } from 'react-native'
 import Button from "./Button";
 const Keypad = (props) => {
     const { buttonSize, handlePress } = props
-    console.log('buttonSize', buttonSize);
-    
   return (
     <View>
       <View style={styles.row}>
