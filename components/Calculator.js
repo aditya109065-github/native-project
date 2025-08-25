@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import Button from "./Button";
 import Display from "./Display";
 import History from "./History";
+import Keypad from "./Keypad";
 
 const Calculator = () => {
   const [input, setInput] = useState("0");
@@ -28,8 +28,10 @@ const Calculator = () => {
             .replace(/%/g, "/100");
 
           const result = eval(expression).toString();
-
-          setHistory([`${input} = ${result}`, ...history]);
+          setHistory((prev) => {
+            const updated = [...prev, `${input} = ${result}`];
+            return updated.slice(-3);
+          });
           setInput(result);
         } catch {
           setInput("Error");
@@ -59,86 +61,17 @@ const Calculator = () => {
       <Display input={input} />
 
       {/* Keypad */}
-      <View style={styles.row}>
-        <Button
-          content="AC"
-          type="gray"
-          size={buttonSize}
-          onPress={handlePress}
-        />
-        <Button
-          content="DEL"
-          type="gray"
-          size={buttonSize}
-          onPress={handlePress}
-        />
-        <Button
-          content="%"
-          type="gray"
-          size={buttonSize}
-          onPress={handlePress}
-        />
-        <Button
-          content="÷"
-          type="orange"
-          size={buttonSize}
-          onPress={handlePress}
-        />
-      </View>
-      <View style={styles.row}>
-        <Button content="7" size={buttonSize} onPress={handlePress} />
-        <Button content="8" size={buttonSize} onPress={handlePress} />
-        <Button content="9" size={buttonSize} onPress={handlePress} />
-        <Button
-          content="×"
-          type="orange"
-          size={buttonSize}
-          onPress={handlePress}
-        />
-      </View>
-      <View style={styles.row}>
-        <Button content="4" size={buttonSize} onPress={handlePress} />
-        <Button content="5" size={buttonSize} onPress={handlePress} />
-        <Button content="6" size={buttonSize} onPress={handlePress} />
-        <Button
-          content="-"
-          type="orange"
-          size={buttonSize}
-          onPress={handlePress}
-        />
-      </View>
-      <View style={styles.row}>
-        <Button content="1" size={buttonSize} onPress={handlePress} />
-        <Button content="2" size={buttonSize} onPress={handlePress} />
-        <Button content="3" size={buttonSize} onPress={handlePress} />
-        <Button
-          content="+"
-          type="orange"
-          size={buttonSize}
-          onPress={handlePress}
-        />
-      </View>
-      <View style={styles.row}>
-        <Button content="0" size={buttonSize} flex={2} onPress={handlePress} />
-        <Button content="." size={buttonSize} onPress={handlePress} />
-        <Button
-          content="="
-          type="orange"
-          size={buttonSize}
-          onPress={handlePress}
-        />
-      </View>
+      <Keypad 
+        buttonSize={buttonSize}
+        handlePress={handlePress}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "black", justifyContent: "flex-end" },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginHorizontal: 5,
-  },
+  
 });
 
 export default Calculator;
