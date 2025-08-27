@@ -6,9 +6,9 @@ import Keypad from "./Keypad";
 import * as Haptics from "expo-haptics";
 
 const Calculator = (props) => {
-  const{ darkMode } = props
+  const{ darkMode, history, setHistory } = props
   const [input, setInput] = useState("0");
-  const [history, setHistory] = useState([]);
+  
   const screenWidth = Dimensions.get("window").width;
   const buttonSize = screenWidth / 4 - 12;
 
