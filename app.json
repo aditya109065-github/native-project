@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "CalculatorApp",
+    "name": "Calculator",
     "slug": "CalculatorApp",
     "version": "1.0.1",
     "icon": "./assets/calculatorAppIcon.png",
@@ -19,8 +19,8 @@
     "android": {
       "versionCode": 2,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/calculatorAppIcon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/adaptive-icon-foreground.png",
+        "backgroundColor": "./assets/adaptive-icon-background.png"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.batm.CalculatorApp"

@@ -5,7 +5,8 @@ import History from "./History";
 import Keypad from "./Keypad";
 import * as Haptics from "expo-haptics";
 
-const Calculator = () => {
+const Calculator = (props) => {
+  const{ darkMode } = props
   const [input, setInput] = useState("0");
   const [history, setHistory] = useState([]);
   const screenWidth = Dimensions.get("window").width;
@@ -60,15 +61,22 @@ const Calculator = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, darkMode ? styles.dark : styles.light]}>
       {/* History visible at the top */}
-      <History history={history} />
+      <History 
+        darkMode={darkMode}
+        history={history}
+      />
 
       {/* Main display */}
-      <Display input={input} />
+      <Display 
+        input={input} 
+        darkMode={darkMode}
+      />
 
       {/* Keypad */}
       <Keypad 
+        darkMode={darkMode}
         buttonSize={buttonSize}
         handlePress={handlePress}
       />
@@ -77,8 +85,13 @@ const Calculator = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "black", justifyContent: "flex-end" },
-  
+  container: { flex: 1, justifyContent: "flex-end" },
+  light: {
+    backgroundColor: '#ffffff'
+  },
+  dark: {
+    backgroundColor: '#000000'
+  },
 });
 
 export default Calculator;
