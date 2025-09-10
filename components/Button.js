@@ -1,44 +1,52 @@
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import Colors from "../colors";
 
-const Button = ({ content, type = "dark", flex = 1, onPress, size, darkMode }) => {
+const Button = (props) => {
+  const { content, type = "dark", onPress, buttonSize, darkMode } = props;
+  const { width, height } = buttonSize;
   let style = styles.darkButton; // default
   if (type === "gray") style = styles.grayButton;
   if (type === "orange") {
-    style = darkMode ? styles.orangeButton : styles.grayButton; // 🔑 orange in dark, gray in light
+    style = darkMode ? styles.orangeButton : styles.grayButton;
   }
 
   return (
     <TouchableOpacity
-      style={[
-        styles.button,
-        style,
-        { width: size * flex + (flex - 1) * 10, height: size },
-      ]}
+      style={[styles.button, style, { width, height }]}
       onPress={() => onPress(content)}
     >
-      {content === "AC" ? (
-        <MaterialCommunityIcons name="delete-forever" size={28} color="#fff"/>
-      ) : content === "DEL" ? (
-        <Ionicons name="backspace" size={28} color="#fff" />
-      ) : (
-        <Text style={styles.text}>{content}</Text>
-      )}
+      {(() => {
+        switch (content) {
+          case "AC":
+            return (
+              <MaterialCommunityIcons
+                name="delete-forever"
+                size={24}
+                color="#fff"
+              />
+            );
+          case "DEL":
+            return <Ionicons name="backspace" size={24} color="#fff" />;
+          default:
+            return <Text style={styles.text}>{content}</Text>;
+        }
+      })()}
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    margin: 5,
-    borderRadius: 40,
+    flex: 1,
+    borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
   },
-  grayButton: { backgroundColor: "#a5a5a5" },
-  darkButton: { backgroundColor: "#333333" },
-  orangeButton: { backgroundColor: "#ff9f0a" },
-  text: { fontSize: 30, color: "#ffffff" ,fontWeight: "500" },
+  grayButton: { backgroundColor: Colors.gray500 },
+  darkButton: { backgroundColor: Colors.dark800 },
+  orangeButton: { backgroundColor: Colors.orange500 },
+  text: { fontSize: 20, color: Colors.light, fontWeight: "500" },
 });
 
 export default Button;

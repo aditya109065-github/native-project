@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, useWindowDimensions } from "react-native";
 import Display from "./Display";
 import History from "./History";
 import Keypad from "./Keypad";
 import * as Haptics from "expo-haptics";
+import Colors from "../colors";
 
 const Calculator = (props) => {
-  const{ darkMode, history, setHistory } = props
+  const { darkMode, history, setHistory } = props;
+  const { width, height } = useWindowDimensions();
+  const isLandscape = width > height;
   const [input, setInput] = useState("0");
-  
-  const screenWidth = Dimensions.get("window").width;
-  const buttonSize = screenWidth / 4 - 12;
 
   const handlePress = (btn) => {
     if(btn !== "=") {
@@ -25,7 +25,39 @@ const Calculator = (props) => {
       case "DEL":
         setInput((prev) => (prev.length > 1 ? prev.slice(0, -1) : "0"));
         break;
-        
+
+      case "x²":
+        try {
+          const num = parseFloat(input);
+          if (!isNaN(num)) {
+            const result = (num * num).toString();
+            setHistory((prev) => {
+              const updated = [...prev, `${num}² = ${result}`];
+              return updated.slice(-3);
+            });
+            setInput(result);
+          }
+        } catch {
+          setInput("Error");
+        }
+        break;
+
+      case "x³":
+        try {
+          const num = parseFloat(input);
+          if (!isNaN(num)) {
+            const result = (num * num * num).toString();
+            setHistory((prev) => {
+              const updated = [...prev, `${num}³ = ${result}`];
+              return updated.slice(-3);
+            });
+            setInput(result);
+          }
+        } catch {
+          setInput("Error");
+        }
+        break;
+
       case "=":
         try {
           const expression = input
@@ -50,34 +82,40 @@ const Calculator = (props) => {
         setInput((prev) => {
           const operators = ["+", "-", "×", "÷", "%", "="];
 
-          // Replace "0" with the new input
           if (prev === "0") return btn;
-
-          // Append with space if it's an operator
           return prev + (operators.includes(btn) ? ` ${btn} ` : btn);
         });
         break;
     }
   };
 
+  const containerStyles = [
+    styles.container,
+    darkMode ? styles.dark : styles.light,
+    { maxWidth: width >= 800 ? width * 0.8 : "100%" },
+  ];
+
   return (
-    <View style={[styles.container, darkMode ? styles.dark : styles.light]}>
-      {/* History visible at the top */}
-      <History 
-        darkMode={darkMode}
-        history={history}
-      />
+    <View style={containerStyles}>
+      {!isLandscape && (
+        <History
+          isLandscape={isLandscape}
+          darkMode={darkMode}
+          history={history}
+        />
+      )}
 
       {/* Main display */}
       <Display 
+        isLandscape={isLandscape} 
         input={input} 
-        darkMode={darkMode}
-      />
+        darkMode={darkMode} 
+        />
 
       {/* Keypad */}
-      <Keypad 
+      <Keypad
+        isLandscape={isLandscape}
         darkMode={darkMode}
-        buttonSize={buttonSize}
         handlePress={handlePress}
       />
     </View>
@@ -85,12 +123,16 @@ const Calculator = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "flex-end" },
+  container: {
+    flex: 1,
+    alignItems: "space-between",
+    
+  },
   light: {
-    backgroundColor: '#ffffff'
+    backgroundColor: Colors.light
   },
   dark: {
-    backgroundColor: '#000000'
+    backgroundColor: Colors.dark
   },
 });
 

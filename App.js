@@ -2,10 +2,11 @@ import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { SafeAreaView, StyleSheet, View, Switch, Text } from "react-native";
+import { SafeAreaView, StyleSheet, View, Switch, Text, useWindowDimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Calculator from "./components/calculator";
+import Colors from "./colors";
 
 const Drawer = createDrawerNavigator();
 
@@ -18,14 +19,14 @@ function DrawerContent(props) {
         <Ionicons
           name={darkMode ? "moon" : "sunny"}
           size={28}
-          color={darkMode ? "#fff" : "#000"}
+          color={darkMode ? Colors.light :Colors.dark}
           style={{ marginRight: 10 }}
         />
         <Switch
           value={darkMode}
           onValueChange={setDarkMode}
-          thumbColor={darkMode ? "#ffffff" : "#333333"}
-          trackColor={{ false: "#a5a5a5", true: "#cccccc" }}
+          thumbColor={darkMode ? Colors.light : Colors.dark800}
+          trackColor={{ false: Colors.switch.disabled, true: Colors.switch.enabled }}
         />
       </View>
       <View style={styles.drawerRow}>
@@ -53,13 +54,16 @@ function CalculatorScreen(props) {
       style={{ flex: 1, backgroundColor: darkMode ? "#000" : "#fff" }}
     >
       <StatusBar style={darkMode ? "light" : "dark"} />
-      <Calculator {...props} />
+      <View style={styles.rootScreen}>
+        <Calculator {...props} />
+      </View>
     </SafeAreaView>
   );
 }
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
+  const { width } = useWindowDimensions();
   const [history, setHistory] = useState([]);
   return (
     <NavigationContainer>
@@ -67,18 +71,19 @@ export default function App() {
         screenOptions={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: darkMode ? "#222831" : "#a5a5a5",
+            backgroundColor: darkMode ? Colors.header.dark : Colors.light,
           },
+          headerStatusBarHeight: width > 450 ? 20 : 50,
           headerTitleAlign: "center",
           headerTitleStyle: {
             fontWeight: 600,
           },
-          headerTintColor: darkMode ? "#fff" : "#333333", // header text + drawer icon
+          headerTintColor: darkMode ? Colors.light :  Colors.dark800, // header text + drawer icon
           drawerStyle: {
-            backgroundColor: darkMode ? "#000000" : "#ffffff", // drawer bg
+            backgroundColor: darkMode ?  Colors.dark : Colors.light, // drawer bg
           },
-          drawerActiveTintColor: darkMode ? "#fff" : "#000",
-          drawerInactiveTintColor: darkMode ? "#aaa" : "#555",
+          drawerActiveTintColor: darkMode ? Colors.light : Colors.dark,
+          drawerInactiveTintColor: darkMode ? Colors.drawer.active : Colors.drawer.inactive,
         }}
         drawerContent={() => (
           <DrawerContent
@@ -103,6 +108,10 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  rootScreen: {
+    flex: 1,
+    alignItems: 'center',
+  },
   drawer: {
     padding: 16,
     marginTop: 40,
@@ -120,9 +129,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   lightText: {
-    color: "#ffffff",
+    color: Colors.light
   },
   darkText: {
-    color: "#000000",
+    color: Colors.dark
   },
 });

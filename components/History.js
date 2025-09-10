@@ -1,11 +1,12 @@
 import React from "react";
 import { Text, StyleSheet, ScrollView } from "react-native";
+import Colors from "../colors";
 
-const History = ({ history, darkMode }) => {
+const History = ({ history, darkMode, isLandscape }) => {
   return (
-    <ScrollView style={styles.history}>
+    <ScrollView style={[styles.history, {maxHeight: isLandscape ? 40 : 100}]}>
       {history.map((item, index) => (
-        <Text key={index} style={[styles.historyText,  { color: darkMode ? '#6ee7b7': '#000000' }]}>
+        <Text key={index} style={[styles.historyText,  { color: darkMode ? Colors.historyTextDark : Colors.dark }]}>
           {item}
         </Text>
       ))}
@@ -15,7 +16,7 @@ const History = ({ history, darkMode }) => {
 
 const styles = StyleSheet.create({
   history: {
-    maxHeight: 120,
+    flex: 1,
     paddingHorizontal: 10,
     marginTop: 10,
   },

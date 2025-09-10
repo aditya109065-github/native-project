@@ -1,36 +1,203 @@
-import { StyleSheet, View } from "react-native";
+import {
+  StyleSheet,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import Button from "./Button";
-const Keypad = (props) => {
-  const { buttonSize, handlePress, darkMode } = props;
+
+const Keypad = ({ handlePress, darkMode }) => {
+  const { width, height } = useWindowDimensions();
+
+  const checkIsTablet = () => {
+    const minDimension = Math.min(width, height);
+    return { isTablet: minDimension >= 600, isLandscape: width > height };
+  };
+
+  const isLandscape = checkIsTablet()?.isLandscape;
+  const isTablet = checkIsTablet().isTablet
+
+  // Button sizing based on orientation
+  const buttonSize = {
+    width: isLandscape ? 120 : width / 4 - 12,
+    height: isLandscape ? height * 0.1 : 60,
+  };
+
+  if (isLandscape) {
+    return (
+      <View style={[styles.landscapeContainer, { marginBottom: isTablet ? 30 : null }]}>
+        <View style={styles.numpad}>
+          <View style={styles.row}>
+            <Button
+              darkMode={darkMode}
+              content="7"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="8"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="9"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="AC"
+              type="gray"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="DEL"
+              type="gray"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+          </View>
+
+          <View style={styles.row}>
+            <Button
+              darkMode={darkMode}
+              content="4"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="5"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="6"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="÷"
+              type="gray"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="×"
+              type="gray"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+          </View>
+          <View style={styles.row}>
+            <Button
+              darkMode={darkMode}
+              content="1"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="2"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="3"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="+"
+              type="orange"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="-"
+              type="orange"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+          </View>
+          <View style={styles.row}>
+            <Button
+              darkMode={darkMode}
+              content="x²"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="x³"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="."
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="%"
+              type="orange"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+            <Button
+              darkMode={darkMode}
+              content="="
+              type="orange"
+              buttonSize={buttonSize}
+              onPress={handlePress}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  // Portrait (default layout)
   return (
-    <View>
+    <View style={[styles.potraitContainer, { marginBottom: isTablet ? 30 : 50 }]}>
       <View style={styles.row}>
         <Button
           darkMode={darkMode}
           content="AC"
           type="gray"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="DEL"
           type="gray"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="%"
           type="gray"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="÷"
           type="orange"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
       </View>
@@ -38,26 +205,26 @@ const Keypad = (props) => {
         <Button
           darkMode={darkMode}
           content="7"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="8"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="9"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="×"
           type="orange"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
       </View>
@@ -65,26 +232,26 @@ const Keypad = (props) => {
         <Button
           darkMode={darkMode}
           content="4"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="5"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="6"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="-"
           type="orange"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
       </View>
@@ -92,48 +259,53 @@ const Keypad = (props) => {
         <Button
           darkMode={darkMode}
           content="1"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="2"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="3"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="+"
           type="orange"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
       </View>
       <View style={styles.row}>
         <Button
           darkMode={darkMode}
-          content="0"
-          size={buttonSize}
-          flex={2}
+          content="x²"
+          buttonSize={buttonSize}
+          onPress={handlePress}
+        />
+        <Button
+          darkMode={darkMode}
+          content="x³"
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="."
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
         <Button
           darkMode={darkMode}
           content="="
           type="orange"
-          size={buttonSize}
+          buttonSize={buttonSize}
           onPress={handlePress}
         />
       </View>
@@ -144,9 +316,24 @@ const Keypad = (props) => {
 export default Keypad;
 
 const styles = StyleSheet.create({
+  potraitContainer: {
+    paddingHorizontal: 16,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+  },
   row: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginHorizontal: 5,
+    gap: 10,
+    marginVertical: 4,
+  },
+  landscapeContainer: {
+    flexDirection: "row",
+    paddingTop: 0,
+  },
+  numpad: {
+    flex: 1,
+    width: "100%",
+    padding: 14,
+    justifyContent: "flex-end",
   },
 });

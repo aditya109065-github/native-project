@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import Colors from "../colors";
 
 const Display = ({ input, darkMode }) => {
   return (
@@ -13,14 +14,17 @@ const Display = ({ input, darkMode }) => {
 
 const styles = StyleSheet.create({
   display: {
-    padding: 20,
+    padding: 16,
+    flex: 1,
     alignItems: "flex-end",
+    justifyContent: 'flex-end',
+
   },
   light: {
-    color: '#ffffff'
+    color: Colors.light
   },
   dark: {
-    color: '#000000'
+    color: Colors.dark
   },
   displayText: { 
     fontSize: 64, 
